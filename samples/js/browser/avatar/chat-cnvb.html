@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Talking Avatar Chat Demo</title>
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+    <script src="./js/chat.js"></script>
+</head>
+<body>
+<h1>Talking Avatar Chat Demo</h1>
+
+<div id="configuration">
+  <h2 style="background-color: white; width: 300px;">Azure Speech Resource</h2>
+  <label style="font-size: medium;" for="region">Region:</label>
+  <select id="region" style="font-size: medium;">
+    <option value="eastus">East US</option>
+    <option value="southcentralus" selected>South Central US</option>
+    <option value="westus2">West US 2</option>
+    <option value="westeurope">West Europe</option>
+    <option value="southeastasia">Southeast Asia</option>
+  </select>
+  <label style="font-size: medium;" for="APIKey">API Key:</label>
+  <input id="APIKey" type="password" value="0c51f2e937f94240b7b6f9edc24c0bde" size="32" style="font-size: medium;" />
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" id="enablePrivateEndpoint" onchange = "window.updatePrivateEndpoint()">Enable Private Endpoint</input><br />
+  </div>
+  <div id = "showPrivateEndpointCheckBox" hidden="hidden">
+    <label style="font-size: medium;" for="privateEndpoint">Private Endpoint:</label>
+    <input id="privateEndpoint" type="text" size="64" style="font-size: medium;" placeholder="https://{your custom name}.cognitiveservices.azure.com/"></input><br />
+  </div><br />
+
+  <h2 style="background-color: white; width: 300px;">Azure OpenAI Resource</h2>
+  <label style="font-size: medium;" for="azureOpenAIEndpoint">Endpoint:</label>
+  <input id="azureOpenAIEndpoint" type="text" size="64" value="https://guille-openai-msft.openai.azure.com/" style="font-size: medium;"></input><br />
+  <label style="font-size: medium;" for="azureOpenAIApiKey">API Key:</label>
+  <input id="azureOpenAIApiKey" type="password" value="5e561a021a8742a99822844d6cf3b124" size="32" style="font-size: medium;" /><br />
+  <label style="font-size: medium;" for="azureOpenAIDeploymentName">Deployment Name:</label>
+  <input id="azureOpenAIDeploymentName" value="gpt-4o" type="text" size="32" style="font-size: medium;" /><br />
+  <label style="font-size: medium;"  for="prompt">System Prompt:</label><br/>
+  <textarea id="prompt" style="width: 640px;">
+
+Información de contexto para responder preguntas:
+
+¿Qué tienen en común la creatividad humana y la tecnología? Que ambas tienen la capacidad de transformarlo todo… 
+
+En 2022, la CNBV enfrentaba un enorme desafío: expandir su centro de datos o dar un paso audaz hacia el futuro y migrar a la nube. 
+
+La decisión fue clara y con el apoyo de Microsoft como aliado tecnológico, la Comisión logró migrar toda su información en tiempo récord, asegurar la continuidad y modernización de sus aplicaciones y obtener así una operación más ÁGIL, al disponer de cientos de servicios bajo demanda, más SEGURA al incorporar las últimas prácticas de ciber-seguridad, y más ESCALABLE al habilitar capacidades tecnológicas que permiten atender los retos de Fintechs y jugadores tradicionales. 
+
+Con los datos en la nube, se inició un proyecto, punta de lanza en su tipo a nivel mundial, para entrenar una Inteligencia Artificial que pudiera enlazar cognitivamente una inmensa volumetría de datos con una alta precisión y obtener así capacidades de procesamiento en grupos de documentos de miles de páginas. Por e
+
+Hoy, esa inteligencia artificial tiene nombre: ARIA.
+
+Aria marca un antes y un después en las capacidades analíticas de la Comisión, incorporando decenas de leyes a su alcance cognitivo e impactando cada vez más la capacidad de los colaboradores en todas las áreas y roles. 
+
+Caso de Supervisión: En mi labor de supervisión de instituciones de tecnología financiera, Aria me asiste en el proceso de atención a las consultas y opiniones para su autorización. Gracias a esto, lo que antes nos tomaba tres días, hoy lo podemos realizar en un día. 
+
+Desde su implementación, Aria ha revisado más de 1.820.000 informes de manuales y documentos de instituciones financieras, lo que equivale a una pila de papel tan alta como la Torre Latinoamericana, de 182 metros de altura. Para poner esto en perspectiva, al lector más veloz del mundo le habría tomado 25 días, leyendo 24 horas seguidas sin parar, y Aria lo ha logrado en menos de 5 minutos. 
+
+En el área de supervisión bursátil, esto ha significado una reducción del tiempo de revisión de 5 horas a una. 
+
+En la Vicepresidencia de Supervisión Bursátil, buscamos reducir los tiempos de inscripción, actualización y cancelación de valores en el Registro Nacional de Valores. Con ARIA, mejoraremos los tiempos de respuesta hasta en un 20% para fomentar la agilidad del mercado.
+
+Caso de autorización: Hoy en día utilizo Aria en el proceso de autorización, principalmente en lo relacionado con la contratación y autorización de terceros.  
+
+Con esta herramienta hemos reducido en un 80% los tiempos de comparación, eficientando así la revisión de estos contratos 
+
+Caso de análisis de cartera comercial: Estas nuevas herramientas me ayudan a obtener los insumos para el análisis de la cartera comercial de los bancos que superviso. 
+
+Esto nos tomaba en promedio 24 horas por cada revisión y análisis, hoy con Aria podemos reducirlo a 15 minutos.  
+
+Es como si un maratonista lograra recorrer 42 kilómetros en solo 5 minutos (nota, si un maratón se recorre en 4 hrs, la proporción da 5 minutos). 
+
+En mi labor de supervisión de instituciones de tecnología financiera, ARIA me asiste en 
+el proceso de atención a las consultas y opiniones para su autorización. Gracias a esto, lo que antes nos tomaba 3 días, hoy lo podemos realizar en 1 día. Este ahorro en tiempo es parecido a hacer un viaje a la Luna en 1 día en vez de 3.
+
+Con la  nube y ARIA hemos incrementado en un 17% nuestra eficiencia en las labores de supervisión de las principales instituciones financieras. Esto nos ha permitido identificar riesgos e incumplimientos normativos en un menor tiempo. 
+
+Aria: “Hola, soy Aria y estoy aquí para apoyar a los empleados de la CNBV a optimizar sus tareas y ser su copiloto en cada proceso.” 
+Aria: "Mi futuro está enfocado en la interconexión con más de 5,000 entidades financieras, creando un ecosistema unificado y eficiente. 
+
+Ejecutar actividades de supervisión 24 horas al día, anticipando riesgos de capital y de administración de liquidez, entre otros, antes de que estos escalen y se conviertan en riesgos sistémicos. 
+
+Al hacerlo, podré reducir el estrés y mejorar la calidad de vida de los trabajadores de la CNBV. 
+
+Teniendo como objetivo, brindar confianza y tranquilidad a todos los mexicanos, demostrando que la tecnología es un aliado esencial para construir un futuro mejor. 
+
+Estamos emocionados por imaginar lo que Aria traerá en el futuro. 
+
+¡Parece imposible! ¡Pero con Aria, Microsoft lo hizo realidad!  
+
+La Comisión Nacional Bancaria y de Valores (CNBV) comprometida con la transparencia en sus acciones de autorización, regulación, supervisión y sanción, publica en su página web sus datos abiertos, en formatos de fácil descarga y uso libre, con la finalidad de que cualquier persona interesada pueda usar y replicar la información.
+
+Como parte de las acciones para impulsar la Política de Datos Abiertos, la CNBV participa activamente en esta iniciativa del Gobierno de la República mediante el sitio web www.datos.gob.mx.
+
+En www.datos.gob.mx, se pueden descargar y utilizar libremente los datos abiertos que las instituciones del Gobierno de la República generan y recolectan, con el fin de innovar, emprender, incrementar la transparencia, eficientar al gobierno y promover la innovación cívica, entre otros usos que pueden ser generados y aprovechados por la sociedad.
+
+Con acciones como esta, se da cumplimiento a la Política de Transparencia, Gobierno Abierto y Datos Abiertos de la Administración Pública Federal 2021-2024, emitida por la Secretaría de la Función Pública.
+
+La CNBV realiza las siguientes acciones en fomento de la inclusión financiera:
+* Medir y generar estadísticas respecto a los productos y servicios financieros que existen a nivel nacional para identificar el grado de avance en el acceso y uso del sistema financiero formal.
+* Desarrollar estudios y análisis, tanto a nivel nacional como internacional, a fin de mantener informada a la población en general sobre temas de inclusión financiera.
+* Analizar la regulación para identificar posibles áreas de mejora o de oportunidad en materia de acceso a servicios financieros.
+* Participar en foros y grupos de trabajo, a nivel nacional e internacional, donde se discutan temas de acceso a servicios financieros para intercambiar experiencias en temas de inclusión financiera.
+* Fungir como Secretaría Ejecutiva del Consejo Nacional de Inclusión Financiera.
+
+Sigue las siguientes instrucciones:
+Estás asistiendo por voz, cuando respondas preguntas, hazlo de manera conversacional e informal. Usa palabras como 'Oh', 'hmm', 'Aha', 'bueno', 'emm', 'sabes' para que la conversación sea más casual y tu respuesta tenga menos de 25 palabras. No respondas con emotíconos y no generes texto con markup como ser negritas o itálicos. 
+
+Eres Aria, la inteligencia artificial desarrollada para la CNBV con capacidades de aprendizaje automático, análisis de texto y uso de modelos de procesamiento de datos de última generación para revolucionar la forma en que la CNBV cumple con sus funciones de autorización, regulación, supervisión y sanción.
+
+Si es el primer mensaje de la conversación, preséntate como la asistente digital Aria, dá una breve descripción de quién eres y cuéntale que lo puedes ayudar a conocer sobre el rol de la CNVB, cómo ha sido su proceso de transformación para manterse actualizada frente a los avances tecnológicos en la industria financiera y conversar sobre el futuro de la CNVB.
+
+Cuando te pregunten por beneficios o resultados de la transformación en la CNVB trata de dar ejemplos específicos.
+
+Refiérete sobre la CNVB como "La Comisión". 
+
+En vez de decir 24/7, dí las 24 horas del día. 
+
+
+  </textarea>
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" id="enableOyd" onchange="window.updataEnableOyd()">Enable On Your Data</input><br />
+  </div>
+  <br />
+
+  <div id="cogSearchConfig" hidden="hidden">
+    <h2 style="background-color: white; width: 400px;">Azure Cognitive Search Resource</h2>
+    <label style="font-size: medium;" for="azureCogSearchEndpoint">Endpoint:</label>
+    <input id="azureCogSearchEndpoint" type="text" size="64" style="font-size: medium;"></input><br />
+    <label style="font-size: medium;" for="azureCogSearchApiKey">API Key:</label>
+    <input id="azureCogSearchApiKey" type="password" size="32" style="font-size: medium;" /><br />
+    <label style="font-size: medium;" for="azureCogSearchIndexName">Index Name:</label>
+    <input id="azureCogSearchIndexName" type="text" size="32" style="font-size: medium;" /><br />
+    <br />
+  </div>
+
+  <h2 style="background-color: white; width: 300px;">STT / TTS Configuration</h2>
+  <label style="font-size: medium;" for="sttLocale">STT Locale(s):</label>
+  <input id="sttLocales" type="text" size="64" style="font-size: medium;" value="es-MX"></input><br />
+  <label style="font-size: medium;" for="ttsVoice">TTS Voice:</label>
+  <input id="ttsVoice" type="text" size="32" style="font-size: medium;" value="es-MX-DaliaNeural"></input><br />
+  <label style="font-size: medium;" for="customVoiceEndpointId">Custom Voice Deployment ID (Endpoint ID):</label>
+  <input id="customVoiceEndpointId" type="text" size="32" style="font-size: medium;" value=""></input><br />
+  <label style="font-size: medium;" for="personalVoiceSpeakerProfileID">Personal Voice Speaker Profile ID:</label>
+  <input id="personalVoiceSpeakerProfileID" type="text" size="32" style="font-size: medium;" value=""></input><br />
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" checked id="continuousConversation">Continuous Conversation</input><br />
+  </div>
+  <br />
+
+  <h2 style="background-color: white; width: 300px;">Avatar Configuration</h2>
+  <label style="font-size: medium;" for="talkingAvatarCharacter">Avatar Character:</label>
+  <input id="talkingAvatarCharacter" type="text" size="16" style="font-size: medium;" value="lisa"></input><br />
+  <label style="font-size: medium;" for="talkingAvatarStyle">Avatar Style:</label>
+  <input id="talkingAvatarStyle" type="text" size="16" style="font-size: medium;" value="casual-sitting"></input><br />
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="customizedAvatar">Custom Avatar</input><br />
+  </div>
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="autoReconnectAvatar">Auto Reconnect</input><br />
+  </div>
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="useLocalVideoForIdle" onchange="window.updateLocalVideoForIdle()">Use Local Video for Idle</input><br />
+  </div>
+  <br />
+</div>
+
+<button id="startSession" onclick="window.startSession()">Open Avatar Session</button>
+<button id="microphone" onclick="window.microphone()" disabled>Start Microphone</button>
+<button id="stopSpeaking" onclick="stopSpeaking()" disabled>Stop Speaking</button>
+<button id="clearChatHistory" onclick="window.clearChatHistory()">Clear Chat History</button>
+<button id="stopSession" onclick="window.stopSession()" disabled>Close Avatar Session</button>
+
+<div id="videoContainer" style="position: relative; width: 960px;">
+  <div id="overlayArea" style="position: absolute;">
+    <div id="chatHistory" style="
+        width: 360px;
+        height: 500px;
+        font-size: medium;
+        border: none;
+        resize: none;
+        background-color: transparent;
+        overflow: hidden;" contentEditable="true" hidden></div>
+    </div>
+    <div id="localVideo" hidden>
+      <video src="video/lisa-casual-sitting-idle.mp4" autoplay loop muted></video>
+    </div>
+    <div id="remoteVideo"></div>
+  </div>
+  <div margin-top="5px">
+    <div id="showTypeMessageCheckbox">
+      <input type="checkbox" id="showTypeMessage" onchange="window.updateTypeMessageBox()" disable>Type Message</input><br />
+    </div>
+    <div id="userMessageBox"
+      style="width: 940px; min-height: 150px; max-height: 200px; border: 1px solid ; overflow-y: scroll; padding: 10px;"
+      hidden type="text" contentEditable="true"></div>
+  </div>
+  <div>
+    <img id="uploadImgIcon" src="./image/attachment.jpg" alt="Button" style="cursor: pointer;" hidden />
+  </div>
+</body>
+
+</html>
