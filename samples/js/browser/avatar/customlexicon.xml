@@ -1,5 +1,5 @@
 <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="es-MX">
     <voice name="es-MX-DaliaNeural">
-        <phoneme alphabet="ipa" ph="ce.ene.ve.be"> CNVB </phoneme>
+        <phoneme alphabet="ipa" ph="ce.ene.be.ve"> CNBV </phoneme>
     </voice>
 </speak>
