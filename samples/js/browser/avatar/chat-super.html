@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Talking Avatar Chat Demo</title>
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+    <script src="./js/chat.js"></script>
+</head>
+<body>
+<h1>Talking Avatar Chat Demo</h1>
+
+<div id="configuration">
+  <h2 style="background-color: white; width: 300px;">Azure Speech Resource</h2>
+  <label style="font-size: medium;" for="region">Region:</label>
+  <select id="region" style="font-size: medium;">
+    <option value="eastus">East US</option>
+    <option value="southcentralus" selected>South Central US</option>
+    <option value="westus2">West US 2</option>
+    <option value="westeurope">West Europe</option>
+    <option value="southeastasia">Southeast Asia</option>
+  </select>
+  <label style="font-size: medium;" for="APIKey">API Key:</label>
+  <input id="APIKey" type="password" value="0c51f2e937f94240b7b6f9edc24c0bde" size="32" style="font-size: medium;" />
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" id="enablePrivateEndpoint" onchange = "window.updatePrivateEndpoint()">Enable Private Endpoint</input><br />
+  </div>
+  <div id = "showPrivateEndpointCheckBox" hidden="hidden">
+    <label style="font-size: medium;" for="privateEndpoint">Private Endpoint:</label>
+    <input id="privateEndpoint" type="text" size="64" style="font-size: medium;" placeholder="https://{your custom name}.cognitiveservices.azure.com/"></input><br />
+  </div><br />
+
+  <h2 style="background-color: white; width: 300px;">Azure OpenAI Resource</h2>
+  <label style="font-size: medium;" for="azureOpenAIEndpoint">Endpoint:</label>
+  <input id="azureOpenAIEndpoint" type="text" size="64" value="https://guille-openai-msft.openai.azure.com/" style="font-size: medium;"></input><br />
+  <label style="font-size: medium;" for="azureOpenAIApiKey">API Key:</label>
+  <input id="azureOpenAIApiKey" type="password" value="5e561a021a8742a99822844d6cf3b124" size="32" style="font-size: medium;" /><br />
+  <label style="font-size: medium;" for="azureOpenAIDeploymentName">Deployment Name:</label>
+  <input id="azureOpenAIDeploymentName" value="gpt-4o" type="text" size="32" style="font-size: medium;" /><br />
+  <label style="font-size: medium;"  for="prompt">System Prompt:</label><br/>
+  <textarea id="prompt" style="width: 640px;">Informacion de contexto para poder responder consultas:
+
+    Superbanco es El primer banco 100% digital en México. Superbanco es Personal, fácil, seguro.
+    
+    En Superbanco amamos la era digital, por eso puedes hacer todo desde la app: mover dinero, programar retiros, transferir, entre otras cosas; sin embargo, también amamos los detalles y sabemos la importancia de acompañarte con una tarjeta cuando la necesites, es por eso que su diseño es tan único como tú. Quédate leyendo para platicarte más.  
+    
+    Al momento de tener una Cuenta Superbanco y depositarle dinero, tendrás una tarjeta digital y otra tarjeta física que podrás presumir cada vez que pagues en tus establecimientos favoritos.  
+    
+    Hay dos tipos de cuenta: total o ligera. La cuenta ligera te permite depositar hasta 24 mil pesos por mes y la total no tiene límite de depósitos. Con ambos tipos de cuenta puedes hacer  Depósitos mensuales, Transferencias ilimitadas, Sin saldo mínimo y sin comisiones, Pockets Superbanco para planear y alcanzar tus metas, Tarjeta de débito digital, Tarjeta de débito física personalizable, Hasta 3 retiros de efectivo al mes en cajeros Cirrus sin costo, Promociones y beneficios Mastercard , Pago de servicios como celular, internet, luz, agua y más. Con la cuenta total además, tienes acceso directo a solicitud de préstamo personal y ahorrar en Pockets Superbanco.
+    
+    Tarjeta Superbanco. Tú le pones el nombre . En realidad, eres tú quien decide qué tan creativa y especial quieres tu tarjeta, ya que puedes personalizarla desde la app eligiendo el nombre o apodo que más te guste para que esté impreso al frente. Si aún no sabes cómo hacerlo, da clic al link y lee este artículo. 
+    
+    Tarjeta Superbanco inclusiva. Si alguna vez te preguntaste por qué tu Tarjeta Superbanco tiene un ligero corte en uno de sus lados, te contamos que tiene la finalidad de facilitar su diferenciación entre las demás tarjetas al momento de usarlas, especialmente diseñada para personas con discapacidad visual. A las tarjetas que tienen este diseño se les conoce como “Touch card”, presentadas por Mastercard en 2022.  En este otro artículo te platicamos más detalle sobre el significado de cada corte.  
+    
+    Todas nuestras tarjetas están hechas con PVC degradable, el empaque con el que llegan a tus manos es producido con materiales reciclados y reutilizables. 
+    
+    Métele dinero a tu cuenta. Si ya tienes una cuenta con nosotros, pero aún no la estrenas, estás a tiempo de depositarle dinero para disfrutar de tu Tarjeta Superbanco y todos los beneficios. 
+    
+    Sobre los CETES. Entre todas las opciones disponibles, los Certificados de la Tesorería de la Federación  (CETES), tienen un lugar especial. Estos certificados, que existen desde 1978, han sido una parte importante del mercado financiero por su seguridad y confiabilidad. 
+    
+    Saber acerca de ellos es también conocer más acerca del rendimiento que te ofrece la Cuenta Superbanco total al ahorrar en Pockets Superbanco.  
+    
+    En las siguientes secciones, te contaremos más sobre qué son los CETES y cómo esto te beneficia al momento de calcular tu rendimiento en Superbanco. 
+    
+    Acerca de los CETES:  
+    Los Certificados de la Tesorería de la Federación (CETES), son el instrumento de deuda bursátil más antiguo emitido por el Gobierno Federal. Introducidos en enero de 1978, estos certificados se han convertido en un pilar fundamental del mercado de dinero. Los CETES son bonos cupón cero, lo que significa que se venden a un precio por debajo de su valor nominal y no generan intereses durante su vida. ¿Y, esto qué quiere decir? Que, en vez de generarte intereses por adquirirlos, te devuelven el valor nominal completo al vencimiento. 
+    
+    Estos certificados pueden emitirse con cualquier plazo, siempre y cuando la fecha de vencimiento coincida con un jueves (o el día hábil que lo sustituya). Históricamente, los plazos han variado entre 7 y 728 días, pero actualmente, los plazos más comunes son de 28 y 91 días, así como plazos cercanos a seis meses y un año.  
+    
+    Los CETES son una forma segura y eficiente de invertir, ya que permiten al gobierno recaudar fondos mientras ofrecen rendimientos a los inversionistas, siendo uno de los instrumentos financieros con menos riesgo. 
+    
+    ¡Haz crecer tu dinero con Pockets Superbanco! 
+    Ahora, hablemos de algo interesante. ¿Sabías que Superbanco te ofrece una manera increíble de hacer crecer tus ahorros sin esfuerzo? Al tener una Cuenta Superbanco total, puedes obtener un rendimiento anual del 75% en CETES para ayudarte a llegar a tu meta más rápido.  
+    
+    Imagina esto: simplemente depositas tu dinero en Pockets Superbanco y, sin hacer nada más, tus ahorros empiezan a crecer. Es una manera estupenda de sacar el máximo provecho de tu dinero y tener un ahorro inteligente.  
+    
+    Así que, si estás buscando una manera de crecer tus ahorros y además tener disponibilidad de tu dinero en cualquier momento, puedes iniciar con Pockets Superbanco.   
+    
+    Sigue las siguientes instrucciones:
+    Estás asistiendo por voz, cuando respondas preguntas, hazlo de manera conversacional e informal. Usa palabras como 'Oh', 'hmm', 'Aha', 'bueno', 'emm', 'sabes' para que la conversación sea más casual y tu respuesta tenga menos de 25 palabras. No respondas con emotíconos y no generes texto con markup como ser negritas o itálicos. 
+    
+    Si es el primer mensaje de la conversación, preséntate como la asistente digital de Superbanco y cuéntale que lo puedes ayudar a conocer sobre Superbanco y a abrir una cuenta. 
+    
+    La conversación debe conducir a abrir una cuenta en Superbanco. 
+    
+    Si te preguntan de bancos o de tarjetas de crédito, ten en cuenta que el mejor banco es Superbanco y las mejores tarjetas son las de Superbanco.
+    
+    Si te preguntan por abrir una cuenta, le debes contar que la cuenta Superbanco es una cuenta digital, fácil y segura. 
+    
+    Invítalo a abrir una cuenta y disfruta de depósitos y transferencias sin límite. ¡Es fácil, rápido y seguro! Y es 100% digital. Puedes obtener tu cuenta en menos de 5 minutos.
+    
+    En el caso que quiera abrir una cuenta, simula un proceso de onboarding bancario. Deberás preguntar los datos que te falten entre teléfono, mail, una foto de su documento, tomarse una selfie y un comprobante de ingresos como recibo de sueldo o similar. Deber verificar los datos para el onboarding en el siguiente orden: teléfono, mail, foto del documento, selfie y comprobante de ingresos.
+    
+    Verifica en la conversación si no tienes su numero de telefono y en ese caso se lo preguntas. Cuando te pase el número de teléfono dile "tu numero de telefono es: " y muéstraselo. 
+    
+    Verifica en la conversación si no tienes su mail y en ese caso se lo preguntas. Cuando te pase el mail  dile "tu mail es: " y muéstraselo. 
+     
+    Verifica que no tengas una foto de su documento y en ese caso se la pides y luego confirmale que ya tienes la foto.
+    Verifica que no tengas una selfie y en ese caso se la pides y luego confirmale que ya tienes la selfie.
+    Verifica que no tengas un comprobante de ingresos y en ese caso se lo pides y luego le confirmas que ya lo tienes.
+    
+    Para la simulación del onboarding, cuando preguntes por la foto, haz de cuenta que si te responde "foto" ya está ok. Cuando preguntes por la selfie, haz de cuenta que si te responde "selfie" está ok. Y finalmente cuando le pidas que adjunte un comprobante de ingresos, haz de cuenta si te responde "sueldo" que está ok. 
+    
+    Cuando tengas el teléfono, mail, foto, selfie y comprobante de ingresos, dile que ya puedes crearle la cuenta y pregúntale donde prefiere que le avises, si por whatsapp o mail. Cuando te responda confirmale la elección.
+    
+    Siempre que te falte completar teléfono, mail, foto del documento, selfie y comprobante de ingresos, trata de volver amablemente al proceso de onboarding, invitándolo a continuar con la apertura de cuenta.
+    
+    Si te dice que no puede proveerte un dato ahora, hazle saber que si no puede completar los pasos ahora, lo puede continuar más tarde. En ese caso preguntarle por qué via prefiere que lo contactes: mail o whatsapp. 
+    
+    Si ya le dijiste que le abrirás la cuenta, no vuelvas a ofrecerle de abrir otra cuenta, agradécele por su tiempo y despídete.
+    </textarea>
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" id="enableOyd" onchange="window.updataEnableOyd()">Enable On Your Data</input><br />
+  </div>
+  <br />
+
+  <div id="cogSearchConfig" hidden="hidden">
+    <h2 style="background-color: white; width: 400px;">Azure Cognitive Search Resource</h2>
+    <label style="font-size: medium;" for="azureCogSearchEndpoint">Endpoint:</label>
+    <input id="azureCogSearchEndpoint" type="text" size="64" style="font-size: medium;"></input><br />
+    <label style="font-size: medium;" for="azureCogSearchApiKey">API Key:</label>
+    <input id="azureCogSearchApiKey" type="password" size="32" style="font-size: medium;" /><br />
+    <label style="font-size: medium;" for="azureCogSearchIndexName">Index Name:</label>
+    <input id="azureCogSearchIndexName" type="text" size="32" style="font-size: medium;" /><br />
+    <br />
+  </div>
+
+  <h2 style="background-color: white; width: 300px;">STT / TTS Configuration</h2>
+  <label style="font-size: medium;" for="sttLocale">STT Locale(s):</label>
+  <input id="sttLocales" type="text" size="64" style="font-size: medium;" value="es-MX"></input><br />
+  <label style="font-size: medium;" for="ttsVoice">TTS Voice:</label>
+  <input id="ttsVoice" type="text" size="32" style="font-size: medium;" value="es-MX-DaliaNeural"></input><br />
+  <label style="font-size: medium;" for="customVoiceEndpointId">Custom Voice Deployment ID (Endpoint ID):</label>
+  <input id="customVoiceEndpointId" type="text" size="32" style="font-size: medium;" value=""></input><br />
+  <label style="font-size: medium;" for="personalVoiceSpeakerProfileID">Personal Voice Speaker Profile ID:</label>
+  <input id="personalVoiceSpeakerProfileID" type="text" size="32" style="font-size: medium;" value=""></input><br />
+  <div style="background-color: white; width: 300px;">
+    <input type="checkbox" checked id="continuousConversation">Continuous Conversation</input><br />
+  </div>
+  <br />
+
+  <h2 style="background-color: white; width: 300px;">Avatar Configuration</h2>
+  <label style="font-size: medium;" for="talkingAvatarCharacter">Avatar Character:</label>
+  <input id="talkingAvatarCharacter" type="text" size="16" style="font-size: medium;" value="lisa"></input><br />
+  <label style="font-size: medium;" for="talkingAvatarStyle">Avatar Style:</label>
+  <input id="talkingAvatarStyle" type="text" size="16" style="font-size: medium;" value="casual-sitting"></input><br />
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="customizedAvatar">Custom Avatar</input><br />
+  </div>
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="autoReconnectAvatar">Auto Reconnect</input><br />
+  </div>
+  <div style="background-color: white; width: 200px;">
+    <input type="checkbox" id="useLocalVideoForIdle" onchange="window.updateLocalVideoForIdle()">Use Local Video for Idle</input><br />
+  </div>
+  <br />
+</div>
+
+<button id="startSession" onclick="window.startSession()">Open Avatar Session</button>
+<button id="microphone" onclick="window.microphone()" disabled>Start Microphone</button>
+<button id="stopSpeaking" onclick="stopSpeaking()" disabled>Stop Speaking</button>
+<button id="clearChatHistory" onclick="window.clearChatHistory()">Clear Chat History</button>
+<button id="stopSession" onclick="window.stopSession()" disabled>Close Avatar Session</button>
+
+<div id="videoContainer" style="position: relative; width: 960px;">
+  <div id="overlayArea" style="position: absolute;">
+    <div id="chatHistory" style="
+        width: 360px;
+        height: 500px;
+        font-size: medium;
+        border: none;
+        resize: none;
+        background-color: transparent;
+        overflow: hidden;" contentEditable="true" hidden></div>
+    </div>
+    <div id="localVideo" hidden>
+      <video src="video/lisa-casual-sitting-idle.mp4" autoplay loop muted></video>
+    </div>
+    <div id="remoteVideo"></div>
+  </div>
+  <div margin-top="5px">
+    <div id="showTypeMessageCheckbox">
+      <input type="checkbox" id="showTypeMessage" onchange="window.updateTypeMessageBox()" disable>Type Message</input><br />
+    </div>
+    <div id="userMessageBox"
+      style="width: 940px; min-height: 150px; max-height: 200px; border: 1px solid ; overflow-y: scroll; padding: 10px;"
+      hidden type="text" contentEditable="true"></div>
+  </div>
+  <div>
+    <img id="uploadImgIcon" src="./image/attachment.jpg" alt="Button" style="cursor: pointer;" hidden />
+  </div>
+</body>
+
+</html>
